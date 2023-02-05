@@ -1,6 +1,7 @@
 import gi
 from gi.repository import GLib, Gtk, Gdk, GObject
 
+
 class InfoDialog(Gtk.Dialog):
     def __init__(self, parent, text):
         super().__init__(title="Recorded activities", transient_for=parent, flags=0)

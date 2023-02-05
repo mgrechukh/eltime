@@ -1,29 +1,28 @@
 #!/usr/bin/env python3
+from datetime import date, datetime, timedelta
+from .sqlrecorder import SqliteRecorder
+from .info_dialog import InfoDialog
+from .texts import css, markup_true, markup_false
+import math
+import os
+from gi.repository import GLib, Gtk, Gdk, GObject
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import GLib, Gtk, Gdk, GObject
-import os
-import math
 
-from .texts import css, markup_true, markup_false
-
-from .info_dialog import InfoDialog
-
-from .sqlrecorder import SqliteRecorder
-
-from datetime import date, datetime, timedelta
 
 # Define our own newWindow class.
+
 class newWindow(Gtk.Window):
     def __init__(self):
         self.progress = False
         self.started_at = None
         self.started_with = None
 
-        self.recorder = SqliteRecorder(os.path.expanduser("~/.config/eltime.db"))
+        self.recorder = SqliteRecorder(
+            os.path.expanduser("~/.config/eltime.db"))
         # Call the constructor of the super class.
         # Set the value of the property title to Geeks for Geeks.
-        Gtk.Window.__init__(self, title ="Eltime")
+        Gtk.Window.__init__(self, title="Eltime")
 
         self.box = Gtk.Box(spacing=4)
         self.add(self.box)
@@ -50,9 +49,10 @@ class newWindow(Gtk.Window):
         self.set_focus(self.button)
         self.box.pack_start(self.button, True, True, 0)
 
-        self.entry = Gtk.Entry(placeholder_text = '(name your activity)')
+        self.entry = Gtk.Entry(placeholder_text='(name your activity)')
         self.entry.connect("activate", self.enter)
-        self.entry.connect("focus-in-event", lambda widget, list: self.entry.emit('changed'))
+        self.entry.connect("focus-in-event", lambda widget,
+                           list: self.entry.emit('changed'))
         self.entry.set_completion(self.entrycompletion)
         self.box.pack_start(self.entry, True, True, 0)
 
@@ -68,18 +68,21 @@ class newWindow(Gtk.Window):
         self.set_resizable(False)
 
         accel = Gtk.AccelGroup()
-        accel.connect(Gdk.keyval_from_name('H'), Gdk.ModifierType.CONTROL_MASK, 0, self.ctrl_h)
-        accel.connect(Gdk.keyval_from_name('Q'), Gdk.ModifierType.CONTROL_MASK, 0, Gtk.main_quit)
+        accel.connect(Gdk.keyval_from_name('H'),
+                      Gdk.ModifierType.CONTROL_MASK, 0, self.ctrl_h)
+        accel.connect(Gdk.keyval_from_name('Q'),
+                      Gdk.ModifierType.CONTROL_MASK, 0, Gtk.main_quit)
         self.add_accel_group(accel)
 
-    def enter(self, widget = None):
+    def enter(self, widget=None):
         print("change button state")
         self.button.set_active(not self.button.get_active())
 
     def ctrl_h(self, *args):
         print("ctrl-h pressed", args)
 
-        yesterday = datetime.combine(date.today()- timedelta(days=1), datetime.min.time())
+        yesterday = datetime.combine(
+            date.today() - timedelta(days=1), datetime.min.time())
         data = self.recorder.get_aggregated_stats(yesterday.timestamp())
         print(data)
 
@@ -89,9 +92,10 @@ class newWindow(Gtk.Window):
             day, hour, duration, entry = l
             if not day in dailysum:
                 dailysum[day] = 0
-            rounded_minutes = math.ceil(duration / 600.0) * 10        
+            rounded_minutes = math.ceil(duration / 600.0) * 10
             dailysum[day] += rounded_minutes
-            report.append("%s %.0f minutes (%s)" % (hour, rounded_minutes, entry.strip() or 'unnamed task'))
+            report.append("%s %.0f minutes (%s)" % (
+                hour, rounded_minutes, entry.strip() or 'unnamed task'))
 
         if report:
             report.append('---')
@@ -104,7 +108,7 @@ class newWindow(Gtk.Window):
 
     # When we click on the button this method
     # will be called
-    def update_ui(self, widget = None):
+    def update_ui(self, widget=None):
         if self.button.get_active():
             print("starting activity", self.entry.get_text())
             self.started_at = datetime.now()
@@ -137,7 +141,8 @@ class newWindow(Gtk.Window):
             print("nothing to do")
             return
 
-        self.recorder.update_session(self.started_at.timestamp(), self.started_with)
+        self.recorder.update_session(
+            self.started_at.timestamp(), self.started_with)
 
         total_seconds = (datetime.now() - self.started_at).total_seconds()
         hours = total_seconds // 3600
@@ -153,12 +158,14 @@ class newWindow(Gtk.Window):
         self.timer.set_text(message)
         GLib.timeout_add(1000, self.display_clock)
 
+
 def main_gui():
     cssProvider = Gtk.CssProvider()
     cssProvider.load_from_data(css.encode('utf-8'))
     screen = Gdk.Screen.get_default()
     styleContext = Gtk.StyleContext()
-    styleContext.add_provider_for_screen(screen, cssProvider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
+    styleContext.add_provider_for_screen(
+        screen, cssProvider, Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
     win = newWindow()
     win.connect("destroy", Gtk.main_quit)
@@ -168,6 +175,7 @@ def main_gui():
     win.set_opacity(0.7)
     Gtk.main()
 
+
 def main():
     # todo: cli reporting and control
-    return main_gui() 
+    return main_gui()
