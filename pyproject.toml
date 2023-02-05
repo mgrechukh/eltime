@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "eltime"
+version = "0.1.0"
+description = "The simplest possible time tracker"
+
+license = "GPL-3.0-or-later"
+
+authors = [
+    'Mykola Grechukh-Lezhnov <nick.grechukh@gmail.com>',
+    'Kateryna Grechukh-Lezhnova <Katerina.Lezhnowa@gmail.com>',
+]
+
+repository = "https://github.com/mgrechukh/eltime"
+homepage = "https://github.com/mgrechukh/eltime"
+
+# README file(s) are used as the package description
+readme = "README.md"
+
+# Keywords (translated to tags on the package index)
+keywords = ['time', 'tracking', 'productivity', 'time tracking']
+
+classifiers = [
+    # see https://pypi.org/classifiers/
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: End Users/Desktop',
+    'Topic :: Database',
+    'Topic :: Office/Business :: Scheduling',
+    'Topic :: Utilities',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3 :: Only',
+    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Operating System :: OS Independent',
+]
+
+[tool.poetry.dependencies]
+# Compatible Python versions
+python = ">=3.6"
+# Standard dependency with semver constraints
+PyGObject= ">=3.0"
+
+[tool.poetry.scripts]
+eltime = "eltime:main"
