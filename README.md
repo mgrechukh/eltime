@@ -27,8 +27,7 @@ Hour activity ended is one that counts.
 E.g.:
 
 - session started 17:57 ended 18:51
-
-- in report so you have "18h - 10min"
+- in report so you have ```18h - 10min```
 
 ---
 To quit, press Ctrl-Q
