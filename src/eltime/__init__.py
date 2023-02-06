@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import GLib, Gtk, Gdk, GObject
+
 from datetime import date, datetime, timedelta
 from .sqlrecorder import SqliteRecorder
 from .info_dialog import InfoDialog
 from .texts import css, markup_true, markup_false
 import math
 import os
-from gi.repository import GLib, Gtk, Gdk, GObject
-import gi
-gi.require_version("Gtk", "3.0")
-
 
 # Define our own newWindow class.
 
