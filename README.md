@@ -8,6 +8,8 @@ Optionally task description may be entered. Autocompletion will make suggestions
 
 To see stats for the last two days, press Ctrl-H
 
+![Screenshot](images/eltime.png)
+
 ---
 Note 1:
 
@@ -26,7 +28,7 @@ E.g.:
 
 - session started 17:57 ended 18:51
 
-In report you'll have "18h - 10min"
+In report so you have "18h - 10min"
 ---
 
 To quit, press Ctrl-Q
